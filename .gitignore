@@ -1,0 +1,6 @@
+*alert*
+*yaml*
+!*.example
+!configsample.yaml
+__pycache__
+.snakemake
