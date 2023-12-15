@@ -4,3 +4,5 @@
 !configsample.yaml
 __pycache__
 .snakemake
+temp/
+*.done
