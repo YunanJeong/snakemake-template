@@ -50,3 +50,8 @@ rule process1:
         mv process1.done {output}
         # pwd >> {output}
         """
+
+
+
+# os.system("ls temp")
+# => 맨 마지막에 파이썬 코드를 적어도 rule 진입전에 실행된다. 마무리작업은 별도로 처리해줘야 할 수 도 있다.
