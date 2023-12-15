@@ -11,13 +11,19 @@ TMP_DIR = 'temp'
 """
 # snakemake 명령어에서 대상파일 미지정시, 첫 번째 기술된 규칙이 실행된다.
 # 이를 이용하여 모든 rule이 실행되도록 하는 기본 rule을 작성할 수 있다.
-# output은 적지않고, input에 최종 산출물 포맷을 명기해주면,
+# input에 최종 산출물 포맷을 명기해주면,
 # 최종 결과물을 만들기 위해 다른 rule들을 재귀적으로 찾아가며 역순으로 실행한다.
+# output과 실행파트(shell)은 안적어도 무방하다. 전부 완료되었다는 로그를 남기는데 사용할 수는 있다.
 """
 rule all:
     input:
         f'{TMP_DIR}/process1.done'
-
+    output:
+        f'{TMP_DIR}/all_clear.done'
+    shell:
+        """
+        touch {output}
+        """
 rule process0:
     output:
         f'{TMP_DIR}/process0.done'
