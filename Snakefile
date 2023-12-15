@@ -39,5 +39,7 @@ rule process1:
         f'{TMP_DIR}/process1.done'
     shell:
         """
-        pwd >> {output}
+        touch process1.done
+        mv process1.done {output}
+        # pwd >> {output}
         """
