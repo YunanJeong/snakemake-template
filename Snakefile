@@ -26,6 +26,7 @@ rule process0:
         echo 'process0' > {output}
         """
 rule process1:
+    # input, output에는 절대, 상대경로 모두 가능. 디렉토리도 자동생성됨.
     input:
         # input 데이터 명시
         # 기술된 input 파일이 존재해야 rule이 실행됨(실행조건)
