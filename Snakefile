@@ -26,7 +26,7 @@ rule process0:
         echo 'process0' > {output}
         """
 rule process1:
-    # input, output에는 절대, 상대경로 모두 가능. 디렉토리도 자동생성됨.
+    # input, output에는 절대, 상대경로 모두 가능.
     input:
         # input 데이터 명시
         # 기술된 input 파일이 존재해야 rule이 실행됨(실행조건)
@@ -34,9 +34,10 @@ rule process1:
     output:
         # output 데이터 명시
         # 이것만으로 output 파일이 생성되지는 않음
-        # 아래 실행파트(shell,script,...)에 실제 결과물 생성로직이 있어야 함 
+        # 아래 실행파트(shell,script,...)에 실제 결과물 생성로직이 있어야 함
+        # 단, output에 "포함된" 경로는 snakemake가 자동생성해주기 때문에 별도 mkdir이 필요없음
         f'{TMP_DIR}/process1.done'
     shell:
         """
-        ls >> {output}
+        pwd >> {output}
         """
