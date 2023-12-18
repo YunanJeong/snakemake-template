@@ -15,7 +15,7 @@ snakemake -j -F
 # 기본
 snakemake {대상파일(최종결과물 이름)}
 
-# config 파일 별도 지정시
+# config 파일 별도 지정 방법(file단위가 아니라 각 key를 오버라이딩하는 것임)
 snakemake --configfile=myconfig.yaml
 
 # 크론탭 등 다른 경로에서 호출시, Snakefile 경로 이동 후 사용
