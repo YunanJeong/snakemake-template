@@ -16,7 +16,7 @@ snakemake -j -F
 snakemake {대상파일(최종결과물 이름)}
 
 # config 파일 별도 지정시
-snakemake -j -C myconfig.yaml
+snakemake --configfile=myconfig.yaml
 
 # 크론탭 등 다른 경로에서 호출시, Snakefile 경로 이동 후 사용
 cd /home/ubuntu/private/snakemake-template/  && snakemake -j -F
