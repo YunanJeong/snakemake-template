@@ -2,7 +2,7 @@ configfile: 'configsample.yaml'
 
 
 # python
-TMP_DIR = 'temp'
+TMP_DIR = config['tmp_dir']
 
 # ! python
 
