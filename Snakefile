@@ -3,7 +3,6 @@ configfile: 'configsample.yaml'
 
 # python
 TMP_DIR = config['tmp_dir']
-
 # ! python
 
 
