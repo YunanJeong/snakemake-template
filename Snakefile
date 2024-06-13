@@ -49,6 +49,8 @@ rule process1:
         mv process1.done {output}
         # pwd >> {output}
         """
+    # retries: 3  # snakemake 7.7.0부터 사용가능. 작업실패시 해당 rule만 retry
+    # onerror:    # 작업에러시 처리기능. GPT가 알려준건데 되는건지 확인필요
 
 
 
