@@ -1,3 +1,4 @@
 mykey: myvalue
 
 tmp_dir: temp
+jobs: ['job1', 'job2', 'job3', 'job4']
