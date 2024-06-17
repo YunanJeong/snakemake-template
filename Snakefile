@@ -85,10 +85,10 @@ rule multi_process:
         """
 onsuccess:
     print('snakemake success')
-    shell("echo 'Success Time:' $(date)  >> logs/snakemake.log") 
+    shell("echo [$(date)] 'Snakemake Success'  >> logs/snakemake.log") 
 onerror:
     print("snakemake failed")
-    shell("echo 'Failure Time:' $(date)  >> logs/snakemake.log") 
+    shell("echo [$(date)] 'Snakemake Failed:'  >> logs/snakemake.log") 
 
 
 # os.system("ls temp")
