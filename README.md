@@ -45,3 +45,50 @@ cd /home/ubuntu/private/snakemake-template/  && snakemake -j -F
 snakemake --rerun-triggers mtime
 # 이렇게 하면 코드변경을 무시하는 효과가 생기기 때문에 이전버전처럼 중간지점부터 재작업 가능
 ```
+---
+
+# Snakemake 로깅 가이드
+
+## 1. `.snakemake/log/`에 전체로그 자동저장 (가장 권장)
+
+- snakemake 1회 실행시, 로그파일이 1개 생성되며 파일명은 서버 시간 기준
+- 단일 파일에 저장되지만, 멀티프로세싱(`-j` 옵션)시 snakemake가 Read/Write 충돌 방지를 지원 (내부적으로 python 로거가 사용됨)
+- `직접조회`해도 되고, `filebeat 등으로 로그 모니터링하기에도 적당`한 구조
+- `에러 발생시, 최신 로그 파일을 찾아서 별도 백업`하는 것도 괜찮은 방법 (onerror 기능, try-catch등 활용)
+
+```sh
+# 최신 로그 파일 찾기
+ls -t .snakemake/log/*.snakemake.log | head -n 1
+```
+
+## 2. `log` directive (job 별 로그 저장) (약간 권장)
+
+- 실행 directive(`shell`, `script`, ...) 내부에서 실제 **로그를 적재하는 명시적 로직이 필요**
+  - `{log}` 변수 활용
+  - `{log}` 경로는 자동 생성되므로 별도 `mkdir`이 필요 없음
+- wildcard에 의해 여러 번 재사용되는 rule인 경우 `{log}`에도 wildcard 포함 필수
+  - 동일한 파일명을 가진 job, rule이 있으면 Syntax Error 발생
+  - 실사용시 wildcard 및 현재시간 기준으로 파일명을 설정해주는 것이 적절
+- retry 시 기존 로그 파일을 덮어쓰며, 최종 실행 결과만 남음
+  - retry하다가 끝까지 실패하면 실패로그 1개만 남고, 성공하면 성공로그 1개만 남는 식
+
+```snakemake
+rule example:
+    output: "/tmp/my/output.txt"
+    log: "logs/example.log"
+    shell:
+        "echo 'Hello' > {output} 2> {log}"
+```
+
+### 3. `exec` 활용 (비권장)
+
+- 세션 유지(job) 동안의 모든 출력을 단일 파일에 기록 가능
+- 모든 명령어에 redirection(`>>`)을 추가할 필요 없음
+- 멀티프로세싱에 의한 단일파일 Read&Write **충돌방지를 snakemake가 보장하지 않음** (그래도 그럭저럭 쓸만하긴 함)
+- 부분적인 로그나 stderr만 별도 추출하고 싶을 때 사용해볼 수 있는 기법
+- 간단하지만 주력 사용은 비권장
+
+```sh
+# `stderr`만 별도로 저장
+exec 2>> logs/stderr.log
+```
